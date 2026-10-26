@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GreenSort – RealWaste</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Times New Roman",serif;background:#f4fbf6;color:#183126}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #dbe9df}.nav{max-width:1150px;margin:auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:26px;font-weight:bold;color:#18794e}.logo span{color:#67a979}nav a{margin-left:20px;text-decoration:none;color:#244b37;font-size:17px}.menu{display:none;background:none;border:0;font-size:25px}
+.hero{padding:70px 20px;background:linear-gradient(135deg,#e8f8ee,#f8fffa)}.hero-grid{max-width:1150px;margin:auto;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+h1{font-size:48px;color:#146c45;margin:0 0 12px}.hero p{font-size:19px;line-height:1.6}.btn{display:inline-block;border:0;border-radius:9px;padding:12px 20px;background:#218754;color:#fff;font:18px "Times New Roman";cursor:pointer;text-decoration:none}
+.secondary{background:#fff;color:#18794e;border:1px solid #9cc8ab;margin-left:7px}.hero-card,.card,.upload,.result,.form,.chart{background:#fff;border:1px solid #dceae1;border-radius:15px;box-shadow:0 5px 18px #1c5a3508}
+.hero-card{padding:25px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{text-align:center;background:#f0f8f3;padding:16px;border-radius:10px}.stat b{display:block;font-size:25px;color:#18794e}
+section{padding:55px 0}.container{max-width:1150px;margin:auto;padding:0 20px}.title{text-align:center;margin-bottom:28px}.title h2{font-size:33px;color:#185f40;margin:0 0 7px}.title p{color:#557263;font-size:17px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.card{padding:20px}.card h3{margin:0 0 7px;color:#18794e}.card p{line-height:1.45;margin:5px 0}
+.upload,.result,.form,.chart{max-width:850px;margin:auto;padding:28px}.upload{text-align:center;border:2px dashed #9ac8aa}.preview{display:block;max-width:330px;max-height:280px;margin:20px auto;border-radius:10px}.result{display:none;margin-top:18px;background:#edf9f1}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}label{font-weight:bold}input[type=text],select,textarea{width:100%;margin-top:6px;padding:10px;border:1px solid #bfd3c5;border-radius:8px;font:16px "Times New Roman"}textarea{min-height:95px;resize:vertical}.full{grid-column:1/-1}
+table{width:100%;border-collapse:collapse;background:#fff}th,td{padding:11px;border-bottom:1px solid #e2ece5;text-align:left}th{background:#eaf6ee;color:#185f40}.empty{text-align:center;padding:20px;color:#687b70}
+.bar{margin:13px 0}.bar-label{display:flex;justify-content:space-between;margin-bottom:5px}.track{height:18px;background:#e7efe9;border-radius:20px;overflow:hidden}.fill{height:100%;background:#3b9a69}
+footer{background:#173d2b;color:#fff;text-align:center;padding:28px}
+@media(max-width:760px){nav{display:none;position:absolute;top:62px;left:0;right:0;background:#fff;padding:12px 20px}nav.open{display:block}nav a{display:block;margin:12px 0}.menu{display:block}.hero-grid{grid-template-columns:1fr}h1{font-size:38px}.cards{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.secondary{margin:8px 0 0}}
+</style></head><body>
+<header><div class="nav"><div class="logo">Green<span>Sort</span></div><button class="menu" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+<nav><a href="#home">Trang chủ</a><a href="#guide">Phần 1</a><a href="#recognize">Phần 2</a><a href="#report">Phần 3</a><a href="#stats">Thống kê</a></nav></div></header>
+
+<section class="hero" id="home"><div class="hero-grid"><div><h1>GreenSort</h1>
+<p><b>Hệ thống hỗ trợ nhận diện và phân loại rác bằng hình ảnh.</b></p><p>Dựa trên bộ dữ liệu RealWaste gồm 4.752 hình ảnh thuộc 9 loại rác.</p>
+<a class="btn" href="#recognize">Bắt đầu nhận diện</a><a class="btn secondary" href="#guide">Xem hướng dẫn</a></div>
+<div class="hero-card"><div class="stats"><div class="stat"><b>4.752</b>Hình ảnh</div><div class="stat"><b>9</b>Loại rác</div><div class="stat"><b>RealWaste</b>Nguồn dữ liệu</div></div></div></div></section>
+
+<section id="guide"><div class="container"><div class="title"><h2>Phần 1 – Hướng dẫn phân loại rác</h2><p>9 nhóm đúng theo RealWaste</p></div><div class="cards" id="cards"></div></div></section>
+
+<section id="recognize"><div class="container"><div class="title"><h2>Phần 2 – Nhận diện rác</h2><p>Tải ảnh để xem giao diện mô phỏng kết quả</p></div>
+<div class="upload"><label class="btn" for="image">Chọn hình ảnh</label><input id="image" type="file" accept="image/*" style="display:none"><p id="file">Chưa chọn hình ảnh</p><img id="preview" class="preview" style="display:none"><button class="btn" id="analyze" style="display:none" onclick="analyze()">Nhận diện ảnh</button></div>
+<div class="result" id="result"><h3>Kết quả nhận diện</h3><p>Loại rác: <b id="rtype"></b></p><p>Độ tin cậy mô phỏng: <b id="conf"></b></p><p>Gợi ý: đưa rác vào đúng khu vực thu gom theo quy định địa phương.</p></div></div></section>
+
+<section id="report"><div class="container"><div class="title"><h2>Phần 3 – Báo cáo</h2><p>Gửi thông tin về rác cần được phân loại hoặc xử lý</p></div>
+<div class="form"><div class="form-grid"><div><label>Loại rác</label><select id="type"></select></div><div><label>Khu vực</label><input id="area" type="text" placeholder="Ví dụ: Quận 1"></div>
+<div class="full"><label>Mô tả</label><textarea id="desc" placeholder="Mô tả tình trạng rác..."></textarea></div></div><br><button class="btn" onclick="sendReport()">Gửi báo cáo</button></div>
+<br><h3>Danh sách báo cáo đã gửi</h3><table><thead><tr><th>Loại rác</th><th>Khu vực</th><th>Mô tả</th><th>Thời gian</th><th>Trạng thái</th></tr></thead><tbody id="reports"></tbody></table></div></section>
+
+<section id="stats"><div class="container"><div class="title"><h2>Thống kê dữ liệu RealWaste</h2><p>Số lượng hình ảnh theo từng nhóm</p></div><div class="chart" id="chart"></div></div></section>
+<footer>GreenSort – Website hỗ trợ phân loại rác dựa trên dữ liệu RealWaste</footer>
+
+<script>
+const data=[
+["Cardboard","Bìa carton","Hộp, thùng và sản phẩm làm từ bìa carton.",461],
+["Food Organics","Rác hữu cơ thực phẩm","Thực phẩm và vật liệu hữu cơ có thể phân hủy.",411],
+["Glass","Thủy tinh","Chai, lọ và vật dụng bằng thủy tinh.",420],
+["Metal","Kim loại","Lon, hộp và vật dụng bằng kim loại.",790],
+["Miscellaneous Trash","Rác khác","Các loại rác không thuộc nhóm chính còn lại.",495],
+["Paper","Giấy","Giấy viết, giấy in, tờ rơi và vật liệu giấy.",500],
+["Plastic","Nhựa","Chai, hộp, bao bì và vật dụng bằng nhựa.",921],
+["Textile Trash","Vải / dệt may","Quần áo, vải và sản phẩm dệt may bỏ đi.",318],
+["Vegetation","Thực vật","Lá cây, cành và vật liệu thực vật.",436]];
+const cards=document.getElementById("cards"),select=document.getElementById("type");
+data.forEach(x=>{cards.innerHTML+=`<div class="card"><h3>${x[1]}</h3><p><b>${x[0]}</b></p><p>${x[2]}</p></div>`;select.innerHTML+=`<option>${x[0]}</option>`});
+const max=Math.max(...data.map(x=>x[3]));document.getElementById("chart").innerHTML=data.map(x=>`<div class="bar"><div class="bar-label"><span>${x[0]}</span><b>${x[3]}</b></div><div class="track"><div class="fill" style="width:${x[3]/max*100}%"></div></div></div>`).join("");
+image.onchange=()=>{let f=image.files[0];if(!f)return;file.textContent=f.name;preview.src=URL.createObjectURL(f);preview.style.display="block";analyze.style.display="inline-block";result.style.display="none"};
+function analyze(){let x=data[Math.floor(Math.random()*data.length)];rtype.textContent=x[0];conf.textContent=(88+Math.floor(Math.random()*11))+"%";result.style.display="block"}
+function sendReport(){let a=area.value.trim(),d=desc.value.trim();if(!a||!d){alert("Vui lòng nhập khu vực và mô tả.");return}let r=JSON.parse(localStorage.getItem("gs")||"[]");r.unshift({t:type.value,a,d,time:new Date().toLocaleString("vi-VN")});localStorage.setItem("gs",JSON.stringify(r));render();area.value="";desc.value="";alert("Đã gửi báo cáo.")}
+function render(){let r=JSON.parse(localStorage.getItem("gs")||"[]");reports.innerHTML=r.length?r.map(x=>`<tr><td>${x.t}</td><td>${x.a}</td><td>${x.d}</td><td>${x.time}</td><td>Mới</td></tr>`).join(""):`<tr><td colspan="5" class="empty">Chưa có báo cáo nào.</td></tr>`}render();
+</script></body></html>
